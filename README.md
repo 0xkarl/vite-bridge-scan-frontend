@@ -10,9 +10,11 @@ ViteBridge block explorer.
 
 ### Run
 
+- Run the backend https://github.com/0xkarl/vite-bridge-scan-backend
 - Run `make` to start the app.
 - Visit the dapp at http://localhost:3000
 
 ### Testnet
 
-- https://vite-bridge-scan.surge.sh
+- web: https://vite-bridge-scan.surge.sh
+- backend: https://vite-explorer-api-testnet.herokuapp.com
