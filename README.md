@@ -12,3 +12,7 @@ ViteBridge block explorer.
 
 - Run `make` to start the app.
 - Visit the dapp at http://localhost:3000
+
+### Testnet
+
+- https://vite-bridge-scan.surge.sh
