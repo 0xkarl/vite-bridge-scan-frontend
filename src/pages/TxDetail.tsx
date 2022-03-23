@@ -8,6 +8,7 @@ import useTxn from '@hooks/useTxn';
 import { formatUnits } from '@utils/big-number';
 import Address from '@components/shared/Address';
 import Hash from '@components/shared/Hash';
+import Status from '@components/shared/Status';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -68,7 +69,9 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
           </div>
 
           <div>Status:</div>
-          <div>Complete</div>
+          <div>
+            <Status complete />
+          </div>
 
           <div>Age:</div>
           <div>{moment.unix(txn.input.timestamp).fromNow()}</div>
@@ -93,7 +96,9 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
           </div>
 
           <div>Status:</div>
-          <div>{txn.output.timestamp ? 'Complete' : 'Pending'}</div>
+          <div>
+            <Status complete={txn.output.timestamp} />
+          </div>
 
           <div>Age:</div>
           <div>

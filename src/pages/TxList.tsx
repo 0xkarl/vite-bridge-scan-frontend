@@ -15,6 +15,7 @@ import { BORDER_RADIUS } from '@config';
 import { formatUnits, formatNumber } from '@utils/big-number';
 import useTxns from '@hooks/useTxns';
 import Address from '@components/shared/Address';
+import Status from '@components/shared/Status';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -92,7 +93,7 @@ const TransactionsList: FC<{}> = () => {
                       {formatUnits(txn.input.amount, 18, 2)}
                     </TableCell>
                     <TableCell>
-                      {txn.output.timestamp ? 'complete' : 'in progress'}
+                      <Status complete={txn.output.timestamp} />
                     </TableCell>
                     <TableCell>
                       {moment.unix(txn.input.timestamp).fromNow()}
