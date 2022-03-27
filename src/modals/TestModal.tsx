@@ -5,20 +5,10 @@ import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { BORDER_RADIUS } from '@config';
-
 export const useStyles = makeStyles((theme) => ({
   container: {
     width: 600,
     minHeight: 400,
-  },
-  synthBalanceTable: {
-    borderRadius: BORDER_RADIUS,
-    background: 'white',
-  },
-  synthBalanceTableHead: {
-    background: '#E6E6E6',
-    borderTop: '1px solid rgba(224, 224, 224, 1)',
   },
 }));
 
@@ -33,7 +23,7 @@ const TestModal: FC<{
 }) => {
   const classes = useStyles();
 
-  const close = () => history.push('/network-overview/synth-holders');
+  const close = () => history.push('/');
 
   return (
     <Dialog open={true} onClose={() => {}}>
