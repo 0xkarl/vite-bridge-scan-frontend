@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
+
 import { Txn } from '@types';
 import * as request from '@utils/request';
 import { useUI } from '@contexts/ui';
+import { poll } from '@utils/hooks';
 
 const COUNT = 10;
 
@@ -14,16 +16,17 @@ const useTxns = () => {
   const pages = useMemo(() => Math.ceil(totalCount / COUNT), [totalCount]);
 
   useEffect(() => {
-    const load = async () => {
+    return poll(async (isMounted) => {
       const { totalCount, data } = await request.get('/txns', {
         page: page - 1,
         count: COUNT,
         ...(searchTerm ? { address: searchTerm } : null),
       });
-      setTxns(data);
-      setTotalCount(totalCount);
-    };
-    load();
+      if (isMounted) {
+        setTxns(data);
+        setTotalCount(totalCount);
+      }
+    });
   }, [page, searchTerm]);
 
   return {
