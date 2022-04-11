@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme) => {
       padding: '20px 40px',
       lineHeight: '1.5rem',
     },
+    unknown: {
+      padding: '20px 30px',
+      lineHeight: '1.5rem',
+    },
   };
 });
 
@@ -51,77 +55,87 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
   const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
   const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
 
-  return !txn ? null : (
+  return txn === undefined ? null : (
     <Box className={classes.container}>
       <h4 className={classes.heading}>Transaction Details</h4>
 
-      <Box mt={2}>
-        <Paper className={classes.summary} elevation={0}>
-          <div>Token:</div>
-          <div>{txn.token}</div>
+      {txn === null ? (
+        <Box mt={2}>
+          <Paper className={classes.unknown} elevation={0}>
+            Unknown bridge transaction: {id}
+          </Paper>
+        </Box>
+      ) : (
+        <>
+          <Box mt={2}>
+            <Paper className={classes.summary} elevation={0}>
+              <div>Token:</div>
+              <div>{txn.token}</div>
 
-          <div>Amount:</div>
-          <div>{formatUnits(txn.input.amount, 18, 2)}</div>
-        </Paper>
-      </Box>
+              <div>Amount:</div>
+              <div>{formatUnits(txn.input.amount, 18, 2)}</div>
+            </Paper>
+          </Box>
 
-      <Box mt={2}>
-        <Paper className={classes.detail} elevation={0}>
-          <div>From:</div>
-          <div>
-            <Address chain={txn.input.chain} address={txn.from} />
-          </div>
+          <Box mt={2}>
+            <Paper className={classes.detail} elevation={0}>
+              <div>From:</div>
+              <div>
+                <Address chain={txn.input.chain} address={txn.from} />
+              </div>
 
-          <div>From Hash:</div>
-          <div>
-            <Hash hash={txn.input.hash} chain={txn.input.chain} />
-          </div>
+              <div>From Hash:</div>
+              <div>
+                <Hash hash={txn.input.hash} chain={txn.input.chain} />
+              </div>
 
-          <div>Status:</div>
-          <div>
-            <Status {...inputTxCompleted} />
-          </div>
+              <div>Status:</div>
+              <div>
+                <Status {...inputTxCompleted} />
+              </div>
 
-          <div>Age:</div>
-          <div>
-            <DateComponent timestamp={txn.input.timestamp} />
-          </div>
+              <div>Age:</div>
+              <div>
+                <DateComponent timestamp={txn.input.timestamp} />
+              </div>
 
-          {/*
+              {/*
           <div>Type:</div>
           <div>Lock</div>
           */}
-        </Paper>
-      </Box>
+            </Paper>
+          </Box>
 
-      <Box mt={2}>
-        <Paper className={classes.detail} elevation={0}>
-          <div>To:</div>
-          <div>
-            <Address chain={txn.output.chain} address={txn.to} />
-          </div>
+          <Box mt={2}>
+            <Paper className={classes.detail} elevation={0}>
+              <div>To:</div>
+              <div>
+                <Address chain={txn.output.chain} address={txn.to} />
+              </div>
 
-          <div>To Hash:</div>
-          <div>
-            <Hash hash={txn.output.hash} chain={txn.output.chain} />
-          </div>
+              <div>To Hash:</div>
+              <div>
+                <Hash hash={txn.output.hash} chain={txn.output.chain} />
+              </div>
 
-          <div>Status:</div>
-          <div>
-            <Status {...outputTxCompleted} />
-          </div>
+              <div>Status:</div>
+              <div>
+                <Status {...outputTxCompleted} />
+              </div>
 
-          <div>Age:</div>
-          <div>
-            <DateComponent timestamp={txn.output.timestamp} />
-          </div>
+              <div>Age:</div>
+              <div>
+                <DateComponent timestamp={txn.output.timestamp} />
+              </div>
 
-          {/*
+              {/*
           <div>Type:</div>
           <div>Lock</div>
           */}
-        </Paper>
-      </Box>
+            </Paper>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
