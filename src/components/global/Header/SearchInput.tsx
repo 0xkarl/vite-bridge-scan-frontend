@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const SearchInput: FC<{}> = () => {
   const classes = useStyles();
   const { searchTerm, setSearchTerm } = useUI();
+  const history = useHistory();
 
   return (
     <Paper
@@ -48,7 +50,13 @@ const SearchInput: FC<{}> = () => {
         const form = e.target as any;
         const localSearchTerm = form.input.value as string;
         if (localSearchTerm) {
-          setSearchTerm(localSearchTerm);
+          if (localSearchTerm.length > 60) {
+            // tx
+            history.push(`/tx/${localSearchTerm}`);
+          } else {
+            setSearchTerm(localSearchTerm);
+            history.push('/');
+          }
         }
       }}
     >
