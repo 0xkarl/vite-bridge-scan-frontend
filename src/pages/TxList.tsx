@@ -119,7 +119,7 @@ const TxRow: FC<{ txn: Txn }> = ({ txn }) => {
         <Status input={inputTxCompleted} output={outputTxCompleted} />
       </TableCell>
       <TableCell>{moment.unix(txn.input.timestamp).fromNow()}</TableCell>
-      <TableCell>{formatNumber(txn.fee, 2)}</TableCell>
+      <TableCell>{formatNumber(txn.fee, 4)}</TableCell>
       <TableCell align='right'>
         <Link to={`/tx/${txn.id}`}>
           <Button variant='outlined'>view</Button>

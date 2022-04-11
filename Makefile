@@ -8,6 +8,7 @@ node_modules:
 	@yarn
 
 deploy:
+	@git push
 	@yarn build
 	@surge -d vite-bridge-scan.surge.sh dist
 
