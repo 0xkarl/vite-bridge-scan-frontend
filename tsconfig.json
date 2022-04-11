@@ -25,7 +25,8 @@
       "@pages/*": ["./src/pages/*"],
       "@utils/*": ["./src/utils/*"],
       "@config/*": ["./src/config/*"],
-      "@types/*": ["./src/types/*"]
+      "@types/*": ["./src/types/*"],
+      "@react-vite/*": ["./src/react-vite/*"]
     }
   },
   "include": ["src"],

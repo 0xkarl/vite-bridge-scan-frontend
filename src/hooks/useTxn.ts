@@ -13,6 +13,7 @@ const useTxn = (id: string) => {
       if (isMounted) {
         setTxn(txns);
       }
+      return false;
     });
   }, [id]);
 

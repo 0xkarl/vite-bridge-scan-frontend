@@ -16,16 +16,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Address: FC<{ address: string; chain: Chain; reversed?: boolean }> = ({
-  address,
-  chain,
-  reversed,
-}) => {
+const Address: FC<{
+  address: string | null;
+  chain: Chain;
+  reversed?: boolean;
+}> = ({ address, chain, reversed }) => {
   const { viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl } = useUI();
   const classes = useStyles();
 
   const formatedAddress = useMemo(() => {
-    return abbrAddress(address, chain === 'vite' ? N + 5 : N + 2, N);
+    return !address
+      ? null
+      : abbrAddress(address, chain === 'vite' ? N + 5 : N + 2, N);
   }, [chain, address]);
 
   const blockExplorerLink = useMemo(
@@ -36,7 +38,9 @@ const Address: FC<{ address: string; chain: Chain; reversed?: boolean }> = ({
     [address, chain, viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl]
   );
 
-  return (
+  return !address ? (
+    <>-</>
+  ) : (
     <CopyToClipboard text={address}>
       <a
         href={blockExplorerLink}

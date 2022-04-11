@@ -1,14 +1,21 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheckCircle as completeIcon,
+  faClock as pendingIcon,
+} from '@fortawesome/free-solid-svg-icons';
 
+import { BORDER_RADIUS } from '@config';
 import useTxn from '@hooks/useTxn';
 import { formatUnits } from '@utils/big-number';
 import Address from '@components/shared/Address';
 import Hash from '@components/shared/Hash';
-import Status from '@components/shared/Status';
 import DateComponent from '@components/shared/Date';
+import useTxStatus from '@hooks/useTxStatus';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -41,6 +48,8 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
 }) => {
   const classes = useStyles();
   const txn = useTxn(id);
+  const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
+  const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
 
   return !txn ? null : (
     <Box className={classes.container}>
@@ -70,7 +79,7 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
 
           <div>Status:</div>
           <div>
-            <Status complete />
+            <Status {...inputTxCompleted} />
           </div>
 
           <div>Age:</div>
@@ -99,7 +108,7 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
 
           <div>Status:</div>
           <div>
-            <Status complete={txn.output.timestamp} />
+            <Status {...outputTxCompleted} />
           </div>
 
           <div>Age:</div>
@@ -112,6 +121,59 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
           <div>Lock</div>
           */}
         </Paper>
+      </Box>
+    </Box>
+  );
+};
+
+const useStatusStyles = makeStyles((theme) => {
+  return {
+    container: {
+      padding: '0rem 0.5rem',
+      borderRadius: BORDER_RADIUS,
+    },
+    complete: {
+      color: '#00c9a7',
+      backgroundColor: 'rgba(0,201,167, 0.1)',
+    },
+    pending: {
+      color: '#c09853',
+      backgroundColor: '#fcf8e3',
+    },
+  };
+});
+
+const Status: FC<{
+  confirmations?: number;
+  maxConfirmations?: number;
+}> = ({ confirmations, maxConfirmations }) => {
+  const classes = useStatusStyles();
+  const complete = useMemo(
+    () =>
+      !(confirmations && maxConfirmations)
+        ? null
+        : confirmations >= maxConfirmations,
+    [confirmations, maxConfirmations]
+  );
+
+  return complete === null ? (
+    <>-</>
+  ) : (
+    <Box
+      className={clsx(
+        classes.container,
+        'flex-inline items-center cursor-pointer',
+        {
+          [classes.complete]: complete,
+          [classes.pending]: !complete,
+        }
+      )}
+    >
+      <FontAwesomeIcon icon={complete ? completeIcon : pendingIcon} />
+      <Box ml={0.5}>
+        {complete
+          ? 'complete'
+          : `in progress (${confirmations}/${maxConfirmations})`}
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-export function poll(load: (isMounted: boolean) => void) {
+export function poll(load: (isMounted: boolean) => Promise<boolean>) {
   let isMounted = true;
   const unsubs = [
     () => {
@@ -6,9 +6,20 @@ export function poll(load: (isMounted: boolean) => void) {
     },
   ];
 
-  const id = setInterval(() => load(isMounted), 2_000);
+  let cleared = false;
+  const id = setInterval(async () => {
+    const unsubscribe = await load(isMounted);
+    if (unsubscribe) {
+      if (!cleared) {
+        clearInterval(id);
+      }
+      cleared = true;
+    }
+  }, 2_000);
   unsubs.push(() => {
-    clearInterval(id);
+    if (!cleared) {
+      clearInterval(id);
+    }
   });
 
   load(isMounted);

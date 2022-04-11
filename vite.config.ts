@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import inject from '@rollup/plugin-inject';
 
 import { compilerOptions } from './tsconfig.json';
 
@@ -18,8 +19,11 @@ export default defineConfig({
   resolve: {
     alias,
   },
-  plugins: [react()],
-  define: {
-    'process.env.NODE_DEBUG': 'false',
-  },
+  plugins: [
+    react(),
+    inject({
+      modules: { Buffer: ['buffer', 'Buffer'] },
+    }),
+  ],
+  define: {},
 });

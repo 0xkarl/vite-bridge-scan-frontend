@@ -26,6 +26,7 @@ const useTxns = () => {
         setTxns(data);
         setTotalCount(totalCount);
       }
+      return false;
     });
   }, [page, searchTerm]);
 
