@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
-import SearchInput from '@components/global/Header/SearchInput';
+import SearchInput from '@components/shared/SearchInput';
 import { useUI } from '@contexts/ui';
 import Stats from './Stats';
 import LatestTxList from './LatestTxList';
@@ -24,11 +24,7 @@ const Landing: FC<{}> = () => {
   return (
     <div className={classes.container}>
       <div className='flex justify-center mb-12'>
-        <Typography variant='h4'>
-          The Vite
-          <>-</>
-          BSC Bridge Explorer
-        </Typography>
+        <Typography variant='h4'>The Vite Bridge Explorer</Typography>
       </div>
 
       <div className='my-8 flex justify-center'>

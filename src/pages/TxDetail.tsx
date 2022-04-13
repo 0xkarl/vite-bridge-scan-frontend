@@ -187,10 +187,14 @@ const Status: FC<{
     <>-</>
   ) : (
     <Box
-      className={clsx(classes.container, 'flex items-center cursor-pointer', {
-        [classes.complete]: complete,
-        [classes.pending]: !complete,
-      })}
+      className={clsx(
+        classes.container,
+        'inline-flex items-center cursor-pointer',
+        {
+          [classes.complete]: complete,
+          [classes.pending]: !complete,
+        }
+      )}
     >
       <FontAwesomeIcon icon={complete ? completeIcon : pendingIcon} />
       <Box ml={0.5}>

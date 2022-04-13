@@ -4,7 +4,7 @@
   </a>
 </div>
 
-## ViteBridge Scan
+## Vite Bridge Scan
 
 ViteBridge block explorer.
 

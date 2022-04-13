@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     '& a': {
       textDecoration: 'none',
     },
-    '& a, a:visited': {
-      color: theme.palette.secondary.main,
-    },
     '& .MuiInputLabel-shrink': {
       right: 0,
       transform: 'translate(0, 1.5px) scale(1)',

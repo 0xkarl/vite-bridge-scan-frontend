@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom';
-import SearchInput from './SearchInput';
+import SearchInput from '@components/shared/SearchInput';
 import NetworkSwitcher from './NetworkSwitcher';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const Header: FC = () => {
     <AppBar position='fixed' color='inherit' className={classes.container}>
       <Toolbar color='inherit'>
         <Link to='/' className='flex flex-grow'>
-          <Typography variant='h6'>ViteBridge Scan</Typography>
+          <Typography variant='h6'>ViteBridgeScan</Typography>
         </Link>
 
         <SearchInput />
