@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { Button, Paper } from '@material-ui/core';
+import { Button, Paper, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Pagination } from '@material-ui/lab';
 import moment from 'moment';
@@ -23,7 +23,6 @@ import { formatUnits, formatNumber } from '@utils/big-number';
 import useTxns from '@hooks/useTxns';
 import Address from '@components/shared/Address';
 import useTxStatus from '@hooks/useTxStatus';
-import Header from '@components/global/Header';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => {
       minHeight: 100,
     },
     tableHead: {
-      background: '#E6E6E6',
       borderTopLeftRadius: BORDER_RADIUS,
       borderTopRightRadius: BORDER_RADIUS,
 
@@ -54,55 +52,49 @@ const TransactionsList: FC<{}> = () => {
   const { txns, page, pages, setPage } = useTxns();
 
   return (
-    <>
-      <Header />
+    <div className='flex flex-col'>
+      <div className='flex items-center justify-between mb-2'>
+        <Typography variant='h5'>Latest transactions</Typography>
 
-      <Paper className={classes.container} elevation={0}>
-        <Box className={classes.table}>
-          {!txns ? (
-            <Box p={4} className='flex justify-center'>
-              Loading...
-            </Box>
-          ) : !txns.length ? (
-            <Box p={4} className='flex justify-center'>
-              No txns found
-            </Box>
-          ) : (
-            <>
-              <Table aria-label='tx list' size={'small'}>
-                <TableHead className={classes.tableHead}>
-                  <TableRow>
-                    <TableCell>From</TableCell>
-                    <TableCell>To</TableCell>
-                    <TableCell>Token</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Age</TableCell>
-                    <TableCell>Fees</TableCell>
-                    <TableCell align='right'></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {txns.map((txn) => (
-                    <TxRow key={txn.id} {...{ txn }} />
-                  ))}
-                </TableBody>
-              </Table>
+        <Link to='/txs'>
+          <Button variant='outlined' color='default' size='small'>
+            View all
+          </Button>
+        </Link>
+      </div>
 
-              <Box mt={2} pb={2} className='flex justify-center'>
-                <Pagination
-                  variant='outlined'
-                  shape='rounded'
-                  count={pages}
-                  page={page}
-                  onChange={(event: any, page: number) => setPage(page)}
-                />
-              </Box>
-            </>
-          )}
-        </Box>
-      </Paper>
-    </>
+      <Box className={classes.table}>
+        {!txns ? (
+          <Box p={4} className='flex justify-center'>
+            Loading...
+          </Box>
+        ) : !txns.length ? (
+          <Box p={4} className='flex justify-center'>
+            No txns found
+          </Box>
+        ) : (
+          <Table aria-label='tx list' size={'small'}>
+            <TableHead className={classes.tableHead}>
+              <TableRow>
+                <TableCell>From</TableCell>
+                <TableCell>To</TableCell>
+                <TableCell>Token</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Age</TableCell>
+                <TableCell>Fees</TableCell>
+                <TableCell align='right'></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {txns.map((txn) => (
+                <TxRow key={txn.id} {...{ txn }} />
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </Box>
+    </div>
   );
 };
 

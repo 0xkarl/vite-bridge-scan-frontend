@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Header from './Header';
-
+import Landing from '@pages/Landing';
 import TxList from '@pages/TxList';
 import TxDetail from '@pages/TxDetail';
 import TestModal from '@modals/TestModal';
@@ -43,10 +42,9 @@ const Layout: FC = () => {
   return (
     <Router>
       <Box className={classes.container}>
-        <Header />
-
         <Switch>
-          <Route exact path={'/'} component={TxList} />
+          <Route exact path={'/'} component={Landing} />
+          <Route path={'/txs'} component={TxList} />
           <Route path={'/tx/:id'} component={TxDetail} />
         </Switch>
 

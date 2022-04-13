@@ -19,7 +19,7 @@ export default createTheme({
   },
   palette: {
     background: {
-      default: '#e5e5e554',
+      default: '#fff',
       paper: '#fff',
     },
     primary: {
@@ -38,6 +38,7 @@ export default createTheme({
     MuiPaper: {
       rounded: {
         borderRadius: BORDER_RADIUS,
+        border: '1px solid rgba(0, 0, 0, 0.15)',
       },
     },
     MuiDialog: {

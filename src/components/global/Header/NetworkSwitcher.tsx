@@ -29,7 +29,8 @@ const NetworkSwitcher: FC = () => {
   return (
     <Box ml={2}>
       <Button
-        variant='contained'
+        variant='outlined'
+        color='default'
         aria-haspopup='true'
         onClick={(e) => handleOpenMenu(e.currentTarget)}
       >

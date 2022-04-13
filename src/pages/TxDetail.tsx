@@ -16,6 +16,7 @@ import Address from '@components/shared/Address';
 import Hash from '@components/shared/Hash';
 import DateComponent from '@components/shared/Date';
 import useTxStatus from '@hooks/useTxStatus';
+import Header from '@components/global/Header';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -55,88 +56,94 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
   const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
   const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
 
-  return txn === undefined ? null : (
-    <Box className={classes.container}>
-      <h4 className={classes.heading}>Transaction Details</h4>
+  return (
+    <>
+      <Header />
 
-      {txn === null ? (
-        <Box mt={2}>
-          <Paper className={classes.unknown} elevation={0}>
-            Unknown bridge transaction: {id}
-          </Paper>
+      {txn === undefined ? null : (
+        <Box className={classes.container}>
+          <h4 className={classes.heading}>Transaction Details</h4>
+
+          {txn === null ? (
+            <Box mt={2}>
+              <Paper className={classes.unknown} elevation={0}>
+                Unknown bridge transaction: {id}
+              </Paper>
+            </Box>
+          ) : (
+            <>
+              <Box mt={2}>
+                <Paper className={classes.summary} elevation={0}>
+                  <div>Token:</div>
+                  <div>{txn.token}</div>
+
+                  <div>Amount:</div>
+                  <div>{formatUnits(txn.input.amount, 18, 2)}</div>
+                </Paper>
+              </Box>
+
+              <Box mt={2}>
+                <Paper className={classes.detail} elevation={0}>
+                  <div>From:</div>
+                  <div>
+                    <Address chain={txn.input.chain} address={txn.from} />
+                  </div>
+
+                  <div>From Hash:</div>
+                  <div>
+                    <Hash hash={txn.input.hash} chain={txn.input.chain} />
+                  </div>
+
+                  <div>Status:</div>
+                  <div>
+                    <Status {...inputTxCompleted} />
+                  </div>
+
+                  <div>Age:</div>
+                  <div>
+                    <DateComponent timestamp={txn.input.timestamp} />
+                  </div>
+
+                  {/*
+          <div>Type:</div>
+          <div>Lock</div>
+          */}
+                </Paper>
+              </Box>
+
+              <Box mt={2}>
+                <Paper className={classes.detail} elevation={0}>
+                  <div>To:</div>
+                  <div>
+                    <Address chain={txn.output.chain} address={txn.to} />
+                  </div>
+
+                  <div>To Hash:</div>
+                  <div>
+                    <Hash hash={txn.output.hash} chain={txn.output.chain} />
+                  </div>
+
+                  <div>Status:</div>
+                  <div>
+                    <Status {...outputTxCompleted} />
+                  </div>
+
+                  <div>Age:</div>
+                  <div>
+                    <DateComponent timestamp={txn.output.timestamp} />
+                  </div>
+
+                  {/*
+          <div>Type:</div>
+          <div>Lock</div>
+          */}
+                </Paper>
+              </Box>
+            </>
+          )}
         </Box>
-      ) : (
-        <>
-          <Box mt={2}>
-            <Paper className={classes.summary} elevation={0}>
-              <div>Token:</div>
-              <div>{txn.token}</div>
-
-              <div>Amount:</div>
-              <div>{formatUnits(txn.input.amount, 18, 2)}</div>
-            </Paper>
-          </Box>
-
-          <Box mt={2}>
-            <Paper className={classes.detail} elevation={0}>
-              <div>From:</div>
-              <div>
-                <Address chain={txn.input.chain} address={txn.from} />
-              </div>
-
-              <div>From Hash:</div>
-              <div>
-                <Hash hash={txn.input.hash} chain={txn.input.chain} />
-              </div>
-
-              <div>Status:</div>
-              <div>
-                <Status {...inputTxCompleted} />
-              </div>
-
-              <div>Age:</div>
-              <div>
-                <DateComponent timestamp={txn.input.timestamp} />
-              </div>
-
-              {/*
-          <div>Type:</div>
-          <div>Lock</div>
-          */}
-            </Paper>
-          </Box>
-
-          <Box mt={2}>
-            <Paper className={classes.detail} elevation={0}>
-              <div>To:</div>
-              <div>
-                <Address chain={txn.output.chain} address={txn.to} />
-              </div>
-
-              <div>To Hash:</div>
-              <div>
-                <Hash hash={txn.output.hash} chain={txn.output.chain} />
-              </div>
-
-              <div>Status:</div>
-              <div>
-                <Status {...outputTxCompleted} />
-              </div>
-
-              <div>Age:</div>
-              <div>
-                <DateComponent timestamp={txn.output.timestamp} />
-              </div>
-
-              {/*
-          <div>Type:</div>
-          <div>Lock</div>
-          */}
-            </Paper>
-          </Box>
-        </>
       )}
-    </Box>
+    </>
   );
 };
 
@@ -174,14 +181,10 @@ const Status: FC<{
     <>-</>
   ) : (
     <Box
-      className={clsx(
-        classes.container,
-        'flex-inline items-center cursor-pointer',
-        {
-          [classes.complete]: complete,
-          [classes.pending]: !complete,
-        }
-      )}
+      className={clsx(classes.container, 'flex items-center cursor-pointer', {
+        [classes.complete]: complete,
+        [classes.pending]: !complete,
+      })}
     >
       <FontAwesomeIcon icon={complete ? completeIcon : pendingIcon} />
       <Box ml={0.5}>

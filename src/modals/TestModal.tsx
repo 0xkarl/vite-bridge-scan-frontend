@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
@@ -31,7 +31,7 @@ const TestModal: FC<{
         <Box
           px={4}
           my={2}
-          className='flex flex-grow justify-space items-center'
+          className='flex flex-grow justify-between items-center'
         >
           <Typography variant='h5' className='flex'>
             <Box mr={1}>Test</Box>x

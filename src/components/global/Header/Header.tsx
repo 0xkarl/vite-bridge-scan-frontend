@@ -10,7 +10,7 @@ import NetworkSwitcher from './NetworkSwitcher';
 const useStyles = makeStyles((theme) => ({
   container: {
     boxShadow: 'none',
-    background: '#DCDCDC',
+    background: '#fff',
   },
 }));
 

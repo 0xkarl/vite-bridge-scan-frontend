@@ -18,9 +18,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: 600,
     background: 'white',
-    // boxShadow: 'none',
-    // border: '1px solid rgba(0, 0, 0, 0.25)',
+    boxShadow: 'none',
+    border: '1px solid rgba(0, 0, 0, 0.25)',
     height: 36,
+  },
+  largeRoot: {
+    height: 48,
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchInput: FC<{}> = () => {
+const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
   const classes = useStyles();
   const { searchTerm, setSearchTerm } = useUI();
   const history = useHistory();
@@ -44,6 +47,7 @@ const SearchInput: FC<{}> = () => {
       component='form'
       className={clsx(classes.root, {
         [classes.disabled]: !!searchTerm,
+        [classes.largeRoot]: large,
       })}
       onSubmit={(e) => {
         e.preventDefault();
