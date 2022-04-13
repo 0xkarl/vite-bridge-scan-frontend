@@ -59,7 +59,7 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
             history.push(`/tx/${localSearchTerm}`);
           } else {
             setSearchTerm(localSearchTerm);
-            history.push('/');
+            history.push('/txs');
           }
         }
       }}
@@ -86,7 +86,7 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
           <InputBase
             name='input'
             className={classes.input}
-            placeholder='Search...'
+            placeholder='Search addresses, tx hash, etc...'
             inputProps={{ 'aria-label': 'search' }}
             defaultValue={searchTerm}
           />

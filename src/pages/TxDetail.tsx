@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
@@ -11,6 +11,7 @@ import {
 
 import { BORDER_RADIUS } from '@config';
 import useTxn from '@hooks/useTxn';
+import { useUI } from '@contexts/ui';
 import { formatUnits } from '@utils/big-number';
 import Address from '@components/shared/Address';
 import Hash from '@components/shared/Hash';
@@ -55,6 +56,11 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
   const txn = useTxn(id);
   const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
   const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
+  const { setSearchTerm } = useUI();
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, [setSearchTerm]);
 
   return (
     <>

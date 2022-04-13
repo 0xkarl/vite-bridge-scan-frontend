@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
 import SearchInput from '@components/global/Header/SearchInput';
+import { useUI } from '@contexts/ui';
 import Stats from './Stats';
 import LatestTxList from './LatestTxList';
 
@@ -14,6 +15,11 @@ const useStyles = makeStyles((theme) => {
 
 const Landing: FC<{}> = () => {
   const classes = useStyles();
+  const { setSearchTerm } = useUI();
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, [setSearchTerm]);
 
   return (
     <div className={classes.container}>

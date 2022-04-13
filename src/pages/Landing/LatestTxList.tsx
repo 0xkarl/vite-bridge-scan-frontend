@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => {
 
 const TransactionsList: FC<{}> = () => {
   const classes = useStyles();
-  const { txns, page, pages, setPage } = useTxns();
+  const { txns } = useTxns();
 
   return (
     <div className='flex flex-col'>
