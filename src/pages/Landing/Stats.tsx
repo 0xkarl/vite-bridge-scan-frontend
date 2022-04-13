@@ -18,6 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { formatNumber } from '@utils/big-number';
 import * as request from '@utils/request';
+import { poll } from '@utils/hooks';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -51,23 +52,13 @@ const Stats: FC = () => {
   const [stats, setStats] = useState<IStats | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
-    const unsubs = [
-      () => {
-        isMounted = false;
-      },
-    ];
-
-    const load = async () => {
+    return poll(async (isMounted) => {
       const stats = await request.get('/stats');
       if (isMounted) {
         setStats(stats);
       }
-    };
-
-    load();
-
-    return () => unsubs.forEach((unsub) => unsub());
+      return false;
+    }, 3_000);
   }, []);
 
   return !stats ? null : (

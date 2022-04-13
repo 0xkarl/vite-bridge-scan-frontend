@@ -1,4 +1,7 @@
-export function poll(load: (isMounted: boolean) => Promise<boolean>) {
+export function poll(
+  load: (isMounted: boolean) => Promise<boolean>,
+  ms?: number
+) {
   let isMounted = true;
   const unsubs = [
     () => {
@@ -15,7 +18,7 @@ export function poll(load: (isMounted: boolean) => Promise<boolean>) {
       }
       cleared = true;
     }
-  }, 2_000);
+  }, ms || 2_000);
   unsubs.push(() => {
     if (!cleared) {
       clearInterval(id);
