@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-blue,
 .text-primary {
   color: #006fe9;
+}
+
+.text-red {
+  color: #d70205;
+}
+
+.text-green {
+  color: #00c9a7;
 }

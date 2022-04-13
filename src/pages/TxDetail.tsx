@@ -8,6 +8,7 @@ import {
   faCheckCircle as completeIcon,
   faClock as pendingIcon,
 } from '@fortawesome/free-solid-svg-icons';
+import { LoaderIcon } from 'react-hot-toast';
 
 import { BORDER_RADIUS } from '@config';
 import useTxn from '@hooks/useTxn';
@@ -184,7 +185,7 @@ const Status: FC<{
   );
 
   return complete === null ? (
-    <>-</>
+    <LoaderIcon />
   ) : (
     <Box
       className={clsx(

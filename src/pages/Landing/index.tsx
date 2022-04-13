@@ -6,6 +6,7 @@ import SearchInput from '@components/shared/SearchInput';
 import { useUI } from '@contexts/ui';
 import Stats from './Stats';
 import LatestTxList from './LatestTxList';
+import Header from '@components/global/Header';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -22,21 +23,24 @@ const Landing: FC<{}> = () => {
   }, [setSearchTerm]);
 
   return (
-    <div className={classes.container}>
-      <div className='flex justify-center mb-12'>
-        <Typography variant='h4'>The Vite Bridge Explorer</Typography>
-      </div>
+    <>
+      <Header mini />
+      <div className={classes.container}>
+        <div className='flex justify-center mb-12'>
+          <Typography variant='h4'>The Vite Bridge Explorer</Typography>
+        </div>
 
-      <div className='my-8 flex justify-center'>
-        <SearchInput large />
-      </div>
+        <div className='my-8 flex justify-center'>
+          <SearchInput large />
+        </div>
 
-      <div className='my-8 flex flex-grow'>
-        <Stats />
-      </div>
+        <div className='my-8 flex flex-grow'>
+          <Stats />
+        </div>
 
-      <LatestTxList />
-    </div>
+        <LatestTxList />
+      </div>
+    </>
   );
 };
 

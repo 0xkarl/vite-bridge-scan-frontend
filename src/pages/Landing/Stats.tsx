@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { FC, useLayoutEffect, useRef, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import moment from 'moment';
 import Chartist, {
   IChartistData,
   IChartOptions,
@@ -9,9 +10,14 @@ import Chartist, {
 } from 'chartist';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faClock as transactionsIcon,
+  faRightLeft as transactionsIcon,
   faUser as addressesIcon,
+  faCoins as assetsIcon,
+  faLink as chainsIcon,
+  faCircle as dotIcon,
 } from '@fortawesome/free-solid-svg-icons';
+import { formatNumber } from '@utils/big-number';
+import * as request from '@utils/request';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -19,34 +25,64 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const Stats: FC<{}> = () => {
-  const classes = useStyles();
+type IStats = {
+  chart: IChartistData;
+  noOfAddresses: number;
+  noOfTransactions: number;
+};
 
-  const volumeChartData: IChartistData = {
-    labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10'],
-    series: [[1, 2, 4, 8, 6, -2, -1, -4, -6, -2]],
-  };
-
-  const volumeChartOptions: IChartOptions = {
-    high: 10,
-    low: -10,
-    axisX: {
-      labelInterpolationFnc: function (value: any, index: any) {
-        return index % 2 === 0 ? value : null;
-      },
+const VOLUME_CHART_OPTIONS: ILineChartOptions = {
+  low: 0,
+  showArea: true,
+  showLine: true,
+  showPoint: false,
+  fullWidth: true,
+  axisX: {
+    type: Chartist.FixedScaleAxis,
+    divisor: 4,
+    labelInterpolationFnc: function (value: any) {
+      return moment.unix(value).format('MMM D');
     },
-  };
+  },
+};
 
-  return (
+const Stats: FC = () => {
+  const classes = useStyles();
+  const [stats, setStats] = useState<IStats | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const unsubs = [
+      () => {
+        isMounted = false;
+      },
+    ];
+
+    const load = async () => {
+      const stats = await request.get('/stats');
+      if (isMounted) {
+        console.log(stats);
+        setStats(stats);
+      }
+    };
+
+    load();
+
+    return () => unsubs.forEach((unsub) => unsub());
+  }, []);
+
+  return !stats ? null : (
     <div
       className={clsx(classes.container, 'grid grid-cols-3 gap-4 flex-grow')}
     >
-      <div className='border rounded shadow-sm flex flex-col p-8'>
-        <div className='font-bold mb-2 text-primary'>Daily Volume</div>
+      <div className='border rounded shadow-sm flex flex-col pt-8 pr-8 pb-8'>
+        <div className='font-bold mb-2 text-primary pl-8'>
+          7-Day Volume History
+        </div>
         <div>
           <ChartistGraph
-            data={volumeChartData}
-            options={volumeChartOptions}
+            data={stats.chart}
+            options={VOLUME_CHART_OPTIONS}
             type={'Line'}
           />
         </div>
@@ -59,27 +95,33 @@ const Stats: FC<{}> = () => {
               <FontAwesomeIcon icon={transactionsIcon} className='mr-1 ' />
               Transactions
             </div>
-            <div className='flex items-center'>4,000</div>
+            <div className='flex items-center'>
+              {formatNumber(stats.noOfTransactions, 0)}
+            </div>
           </div>
           <div>
             <div className='font-bold mb-2 flex items-center text-primary'>
               <FontAwesomeIcon icon={addressesIcon} className='mr-1 ' />
               Addresses
             </div>
-            <div className='flex items-center'>34,222</div>
+            <div className='flex items-center'>
+              {formatNumber(stats?.noOfAddresses, 0)}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className='border rounded shadow-sm flex flex-col p-8'>
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-2 mt-8'>
           <div>
-            <div className='font-bold mb-2 text-primary'>Assets</div>
+            <div className='font-bold mb-2 flex items-center text-primary'>
+              <FontAwesomeIcon icon={assetsIcon} className='mr-1 ' /> Assets
+            </div>
             <div className='flex items-center'>VITE</div>
             <div className='flex items-center'>USDV</div>
           </div>
           <div>
-            <div className='font-bold mb-2 text-primary'>Chains</div>
+            <div className='font-bold mb-2 flex items-center text-primary'>
+              <FontAwesomeIcon icon={chainsIcon} className='mr-1 ' /> Chains
+            </div>
             <div className='flex items-center'>
               <img
                 src={'/vite.svg'}
@@ -103,6 +145,32 @@ const Stats: FC<{}> = () => {
           </div>
         </div>
       </div>
+
+      <div className='border rounded shadow-sm flex flex-col p-8'>
+        <div className='font-bold mb-2 text-primary'>Bridges</div>
+        <div className='flex items-center mb-1'>
+          <FontAwesomeIcon icon={dotIcon} className='mr-1 text-xs text-red' />
+          <a
+            href='https://bridge.vite.net/'
+            target='_blank'
+            rel='noreferrer'
+            className='hover:underline'
+          >
+            Mainnet
+          </a>
+        </div>
+        <div className='flex items-center'>
+          <FontAwesomeIcon icon={dotIcon} className='mr-1 text-xs text-green' />
+          <a
+            href='https://bridge-buidl.vite.net/'
+            target='_blank'
+            rel='noreferrer'
+            className='hover:underline'
+          >
+            Testnet
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
@@ -119,7 +187,24 @@ const ChartistGraph: FC<{
 
   useLayoutEffect(() => {
     if (el.current) {
-      new Chartist[type](el.current, data, options, responsiveOptions);
+      const chart = new Chartist[type](
+        el.current,
+        data,
+        options,
+        responsiveOptions
+      );
+      chart.on('draw', function (data: any) {
+        if (data.type === 'line') {
+          data.element.attr({
+            style: 'stroke: #006fe9; stroke-width: 2px;',
+          });
+        }
+        if (data.type === 'area') {
+          data.element.attr({
+            style: 'fill: #006fe9;',
+          });
+        }
+      });
     }
   }, [type, data, options, responsiveOptions]);
 

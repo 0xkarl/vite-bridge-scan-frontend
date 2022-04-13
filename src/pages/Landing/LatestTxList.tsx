@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { Button, Paper, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { Pagination } from '@material-ui/lab';
+import { LoaderIcon } from 'react-hot-toast';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -57,7 +57,12 @@ const TransactionsList: FC<{}> = () => {
         <Typography variant='h5'>Latest transactions</Typography>
 
         <Link to='/txs'>
-          <Button variant='outlined' color='default' size='small'>
+          <Button
+            variant='contained'
+            disableElevation
+            color='primary'
+            size='small'
+          >
             View all
           </Button>
         </Link>
@@ -119,7 +124,14 @@ const TxRow: FC<{ txn: Txn }> = ({ txn }) => {
       <TableCell>{formatNumber(txn.fee, 4)}</TableCell>
       <TableCell align='right'>
         <Link to={`/tx/${txn.id}`}>
-          <Button variant='outlined'>view</Button>
+          <Button
+            variant='contained'
+            disableElevation
+            color='primary'
+            size='small'
+          >
+            view
+          </Button>
         </Link>
       </TableCell>
     </TableRow>
@@ -168,7 +180,7 @@ const Status: FC<{
   );
 
   return complete === null ? (
-    <>-</>
+    <LoaderIcon />
   ) : (
     <Box
       className={clsx(

@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { LoaderIcon } from 'react-hot-toast';
 import Box from '@material-ui/core/Box';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -127,7 +128,14 @@ const TxRow: FC<{ txn: Txn }> = ({ txn }) => {
       <TableCell>{formatNumber(txn.fee, 4)}</TableCell>
       <TableCell align='right'>
         <Link to={`/tx/${txn.id}`}>
-          <Button variant='outlined'>view</Button>
+          <Button
+            variant='outlined'
+            disableElevation
+            color='primary'
+            size='small'
+          >
+            view
+          </Button>
         </Link>
       </TableCell>
     </TableRow>
@@ -176,7 +184,7 @@ const Status: FC<{
   );
 
   return complete === null ? (
-    <>-</>
+    <LoaderIcon />
   ) : (
     <Box
       className={clsx(

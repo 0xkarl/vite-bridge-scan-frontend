@@ -14,17 +14,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header: FC = () => {
+const Header: FC<{ mini?: boolean }> = ({ mini }) => {
   const classes = useStyles();
 
   return (
     <AppBar position='fixed' color='inherit' className={classes.container}>
       <Toolbar color='inherit'>
-        <Link to='/' className='flex flex-grow'>
-          <Typography variant='h6'>ViteBridgeScan</Typography>
-        </Link>
+        {mini ? (
+          <div className='flex-grow' />
+        ) : (
+          <>
+            <Link to='/' className='flex flex-grow'>
+              <img src='/vite.svg' alt='logo' height={30} width={30} />{' '}
+              <Typography variant='h6'>ViteBridgeScan</Typography>
+            </Link>
 
-        <SearchInput />
+            <SearchInput />
+          </>
+        )}
 
         <NetworkSwitcher />
       </Toolbar>

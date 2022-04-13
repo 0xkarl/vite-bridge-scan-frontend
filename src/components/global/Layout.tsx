@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '70px 0 10px',
       width: 'auto',
     },
-    '& a': {
-      textDecoration: 'none',
-    },
     '& .MuiInputLabel-shrink': {
       right: 0,
       transform: 'translate(0, 1.5px) scale(1)',
