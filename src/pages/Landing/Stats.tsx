@@ -19,10 +19,14 @@ import {
 import { formatNumber } from '@utils/big-number';
 import * as request from '@utils/request';
 import { poll } from '@utils/hooks';
+import { BORDER_RADIUS } from '@config';
 
 const useStyles = makeStyles((theme) => {
   return {
     container: {},
+    box: {
+      borderRadius: BORDER_RADIUS,
+    },
   };
 });
 
@@ -65,7 +69,12 @@ const Stats: FC = () => {
     <div
       className={clsx(classes.container, 'grid grid-cols-3 gap-4 flex-grow')}
     >
-      <div className='border rounded shadow-sm flex flex-col pt-8 pr-8 pb-8'>
+      <div
+        className={clsx(
+          classes.box,
+          'border shadow-sm flex flex-col pt-8 pr-8 pb-8'
+        )}
+      >
         <div className='font-bold mb-2 text-primary pl-8'>
           7-Day Volume History
         </div>
@@ -78,7 +87,7 @@ const Stats: FC = () => {
         </div>
       </div>
 
-      <div className='border rounded shadow-sm flex flex-col p-8'>
+      <div className={clsx(classes.box, 'border  shadow-sm flex flex-col p-8')}>
         <div className='grid grid-cols-2'>
           <div>
             <div className='font-bold mb-2 flex items-center text-primary'>
@@ -136,7 +145,7 @@ const Stats: FC = () => {
         </div>
       </div>
 
-      <div className='border rounded shadow-sm flex flex-col p-8'>
+      <div className={clsx(classes.box, 'border shadow-sm flex flex-col p-8')}>
         <div className='font-bold mb-2 text-primary'>Bridges</div>
         <div className='flex items-center mb-1'>
           <FontAwesomeIcon icon={dotIcon} className='mr-1 text-xs text-red' />
