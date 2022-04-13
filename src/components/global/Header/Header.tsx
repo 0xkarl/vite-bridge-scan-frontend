@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -12,23 +13,30 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     background: '#fff',
   },
+  toolbar: {
+    alignItems: 'flex-start !important',
+  },
 }));
 
 const Header: FC<{ mini?: boolean }> = ({ mini }) => {
   const classes = useStyles();
 
   return (
-    <AppBar position='fixed' color='inherit' className={classes.container}>
-      <Toolbar color='inherit'>
+    <AppBar
+      position='fixed'
+      color='inherit'
+      className={clsx(classes.container)}
+    >
+      <Toolbar color='inherit' className={clsx(classes.toolbar, 'pt-4')}>
         {mini ? (
           <div className='flex-grow' />
         ) : (
           <>
-            <Link to='/' className='flex flex-grow'>
+            <Link to='/' className='flex'>
               <img src='/vite.svg' alt='logo' height={30} width={30} />{' '}
               <Typography variant='h6'>ViteBridgeScan</Typography>
             </Link>
-
+            <div className='flex-grow' />
             <SearchInput />
           </>
         )}

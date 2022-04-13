@@ -61,7 +61,6 @@ const Stats: FC = () => {
     const load = async () => {
       const stats = await request.get('/stats');
       if (isMounted) {
-        console.log(stats);
         setStats(stats);
       }
     };

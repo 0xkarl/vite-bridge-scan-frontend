@@ -16,18 +16,20 @@ const useStyles = makeStyles((theme) => {
 
 const Landing: FC<{}> = () => {
   const classes = useStyles();
-  const { setSearchTerm } = useUI();
+  const { clearSearch } = useUI();
 
   useEffect(() => {
-    setSearchTerm('');
-  }, [setSearchTerm]);
+    clearSearch();
+  }, [clearSearch]);
 
   return (
     <>
       <Header mini />
       <div className={classes.container}>
         <div className='flex justify-center mb-12'>
-          <Typography variant='h4'>The Vite Bridge Explorer</Typography>
+          <Typography variant='h4'>
+            <span className='font-bold'>The Vite Bridge Explorer</span>
+          </Typography>
         </div>
 
         <div className='my-8 flex justify-center'>

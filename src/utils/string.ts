@@ -1,4 +1,10 @@
-export const abbrAddress = (address: string, m?: number, n?: number) => {
+import { Chain } from '@types';
+
+const N = 5;
+
+export const abbrAddress = (address: string, chain: Chain) => {
+  let m = chain === 'vite' ? N + 5 : N + 2;
+  let n = N;
   if (!m) {
     m = 4;
   }

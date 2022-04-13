@@ -1,34 +1,35 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { Txn } from '@types';
+import { Txn } from '@types/';
 import * as request from '@utils/request';
 import { useUI } from '@contexts/ui';
 import { poll } from '@utils/hooks';
 
-const COUNT = 10;
+const COUNT = 20;
 
 const useTxns = () => {
   const [txns, setTxns] = useState<Txn[] | null>(null);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const { searchTerm } = useUI();
+  const { searchParams } = useUI();
 
   const pages = useMemo(() => Math.ceil(totalCount / COUNT), [totalCount]);
 
   useEffect(() => {
     return poll(async (isMounted) => {
-      const { totalCount, data } = await request.get('/txns', {
+      const opts: Record<string, any> = {
         page: page - 1,
         count: COUNT,
-        ...(searchTerm ? { address: searchTerm } : null),
-      });
+        ...searchParams,
+      };
+      const { totalCount, data } = await request.get('/txns', opts);
       if (isMounted) {
         setTxns(data);
         setTotalCount(totalCount);
       }
       return false;
     });
-  }, [page, searchTerm]);
+  }, [page, searchParams]);
 
   return {
     txns,

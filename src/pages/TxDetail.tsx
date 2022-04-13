@@ -57,11 +57,11 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
   const txn = useTxn(id);
   const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
   const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
-  const { setSearchTerm } = useUI();
+  const { clearSearch } = useUI();
 
   useEffect(() => {
-    setSearchTerm('');
-  }, [setSearchTerm]);
+    clearSearch();
+  }, [clearSearch]);
 
   return (
     <>

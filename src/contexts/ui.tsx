@@ -4,29 +4,35 @@ import React, {
   createContext,
   ReactNode,
   useState,
-  useCallback,
   useMemo,
+  useCallback,
 } from 'react';
-import NProgress from 'nprogress';
 
-import { Network } from '@types';
+import { Network, Token } from '@types/';
 import { VITE_BLOCK_EXPLORERS, BSC_BLOCK_EXPLORERS } from '@config';
 
 const UIContext = createContext<{
-  startProgress: () => void;
-  endProgress: () => void;
-  inProgress: boolean;
-  searchTerm: string;
-  setSearchTerm: (s: string) => void;
+  searchParams: SearchParams;
+  search: (s: SearchParams) => void;
+
   network: string;
   setNetwork: (s: Network) => void;
+
+  clearSearch: () => void;
+
   bscBaseBlockexplorerUrl: string;
   viteBaseBlockexplorerUrl: string;
 } | null>(null);
 
+type SearchParams = {
+  from?: string;
+  to?: string;
+  token?: Token;
+  address?: string;
+};
+
 export const UIProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [inProgress, setInProgress] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams, search] = useState<SearchParams>({});
   const [network, setNetwork] = useState<Network>('testnet');
 
   const bscBaseBlockexplorerUrl = useMemo(() => BSC_BLOCK_EXPLORERS[network], [
@@ -37,27 +43,21 @@ export const UIProvider: FC<{ children: ReactNode }> = ({ children }) => {
     [network]
   );
 
-  const startProgress = useCallback(() => {
-    setInProgress(true);
-    NProgress.start();
-    NProgress.set(0.4);
-  }, [setInProgress]);
-
-  const endProgress = useCallback(() => {
-    setInProgress(false);
-    NProgress.done();
-  }, [setInProgress]);
+  const clearSearch = useCallback(() => {
+    search({});
+  }, []);
 
   return (
     <UIContext.Provider
       value={{
-        startProgress,
-        endProgress,
-        inProgress,
-        searchTerm,
-        setSearchTerm,
+        clearSearch,
+
+        searchParams,
+        search,
+
         network,
         setNetwork,
+
         bscBaseBlockexplorerUrl,
         viteBaseBlockexplorerUrl,
       }}

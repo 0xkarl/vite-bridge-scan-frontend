@@ -8,8 +8,6 @@ import { abbrAddress } from '@utils/string';
 import { useUI } from '@contexts/ui';
 import CopyToClipboard from '@components/shared/CopyToClipboard';
 
-const N = 5;
-
 const useStyles = makeStyles((theme) => ({
   container: {
     color: '#006fe9 !important',
@@ -25,9 +23,7 @@ const Address: FC<{
   const classes = useStyles();
 
   const formatedAddress = useMemo(() => {
-    return !address
-      ? null
-      : abbrAddress(address, chain === 'vite' ? N + 5 : N + 2, N);
+    return !address ? null : abbrAddress(address, chain);
   }, [chain, address]);
 
   const blockExplorerLink = useMemo(
