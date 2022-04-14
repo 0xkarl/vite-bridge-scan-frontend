@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { LoaderIcon } from 'react-hot-toast';
 import moment from 'moment';

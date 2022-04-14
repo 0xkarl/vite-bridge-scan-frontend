@@ -3,19 +3,7 @@ import { BORDER_RADIUS } from '@config';
 
 export default createTheme({
   typography: {
-    fontFamily: [
-      'Work Sans',
-      'Arial',
-      'sans-serif',
-      // 'Metropolis',
-      // '-apple-system',
-      // 'BlinkMacSystemFont',
-      // 'Segoe UI',
-      // 'Roboto',
-      // 'Oxygen',
-      // 'Helvetica Neue',
-      // 'sans-serif',
-    ].join(','),
+    fontFamily: ['Metropolis', 'Helvetica', 'Arial', 'sans-serif'].join(','),
   },
   palette: {
     background: {
