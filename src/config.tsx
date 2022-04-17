@@ -20,3 +20,6 @@ export const BSC_WEB3_PROVIDER = {
   mainnet: 'https://bsc-dataseed1.binance.org:443',
   testnet: 'https://data-seed-prebsc-1-s1.binance.org:8545',
 };
+
+export const MAX_VITE_CONFIRMATIONS = 100;
+export const MAX_BSC_CONFIRMATIONS = 10;

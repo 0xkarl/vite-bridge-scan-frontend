@@ -14,11 +14,13 @@ export type Txn = {
     amount: string;
     hash: string;
     chain: Chain;
+    confirmed: boolean;
   };
   output: {
     timestamp?: number;
     amount?: string;
     hash?: string;
     chain: Chain;
+    confirmed?: boolean;
   };
 };

@@ -4,8 +4,15 @@ import { useViteProvider } from '@react-vite';
 import { useBSCProvider } from '@contexts/bsc-provider';
 import { Chain } from '@types';
 import { poll } from '@utils/hooks';
+import { MAX_VITE_CONFIRMATIONS, MAX_BSC_CONFIRMATIONS } from '@config/';
 
-const useTxStatus = (chain: Chain | null, hash: string | null) => {
+type Args = {
+  chain: Chain;
+  hash: string | null;
+  confirmed?: boolean;
+};
+
+const useTxStatus = (args: Args | null) => {
   const { provider: viteProvider } = useViteProvider();
   const { provider: bscProvider } = useBSCProvider();
   const [ret, setRet] = useState<{
@@ -16,36 +23,45 @@ const useTxStatus = (chain: Chain | null, hash: string | null) => {
   useEffect(() => {
     return poll(async (isMounted) => {
       let confirmations = 0;
-      let maxConfirmations: number | null = null;
+      let maxConfirmations = 0;
 
-      if (chain && hash) {
-        if (chain === 'vite') {
-          const x = await viteProvider.request(
-            'ledger_getAccountBlockByHash',
-            hash
-          );
-          if (x) {
-            confirmations = Number(x.confirmations);
-            maxConfirmations = 100;
-          }
+      if (args) {
+        const { chain, hash, confirmed } = args;
+
+        maxConfirmations =
+          chain === 'vite' ? MAX_VITE_CONFIRMATIONS : MAX_BSC_CONFIRMATIONS;
+
+        if (confirmed) {
+          confirmations = maxConfirmations;
         } else {
-          const x = await bscProvider.getTransaction(hash);
-          if (x) {
-            confirmations = Number(x.confirmations);
-            maxConfirmations = 10;
+          if (chain && hash) {
+            if (chain === 'vite') {
+              const x = await viteProvider.request(
+                'ledger_getAccountBlockByHash',
+                hash
+              );
+              if (x) {
+                confirmations = Number(x.confirmations);
+              }
+            } else {
+              const x = await bscProvider.getTransaction(hash);
+              if (x) {
+                confirmations = Number(x.confirmations);
+              }
+            }
           }
         }
-      }
 
-      if (isMounted && confirmations && maxConfirmations) {
-        setRet({ confirmations, maxConfirmations });
+        if (isMounted && confirmations && maxConfirmations) {
+          setRet({ confirmations, maxConfirmations });
+        }
       }
 
       return confirmations && maxConfirmations
         ? confirmations >= maxConfirmations
         : false;
     });
-  }, [chain, hash, viteProvider, bscProvider]);
+  }, [args, viteProvider, bscProvider]);
 
   return ret;
 };

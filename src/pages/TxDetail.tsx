@@ -55,8 +55,8 @@ const TxDetail: FC<{ match: { params: { id: string } } }> = ({
 }) => {
   const classes = useStyles();
   const txn = useTxn(id);
-  const inputTxCompleted = useTxStatus(txn?.input.chain, txn?.input.hash);
-  const outputTxCompleted = useTxStatus(txn?.output.chain, txn?.output.hash);
+  const inputTxCompleted = useTxStatus(txn?.input ?? null);
+  const outputTxCompleted = useTxStatus(txn?.output ?? null);
   const { clearSearch } = useUI();
 
   useEffect(() => {

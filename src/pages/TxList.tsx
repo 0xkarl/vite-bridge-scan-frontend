@@ -108,8 +108,8 @@ const TransactionsList: FC<{}> = () => {
 };
 
 const TxRow: FC<{ txn: Txn }> = ({ txn }) => {
-  const inputTxCompleted = useTxStatus(txn.input.chain, txn.input.hash);
-  const outputTxCompleted = useTxStatus(txn.output.chain, txn.output.hash);
+  const inputTxCompleted = useTxStatus(txn.input);
+  const outputTxCompleted = useTxStatus(txn.output);
 
   return (
     <TableRow>
