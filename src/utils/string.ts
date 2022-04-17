@@ -1,15 +1,8 @@
-import { Chain } from '@types';
-
 const N = 5;
 
-export const abbrAddress = (address: string, chain: Chain) => {
-  let m = chain === 'vite' ? N + 5 : N + 2;
-  let n = N;
-  if (!m) {
-    m = 4;
-  }
-  if (!n) {
-    n = 4;
-  }
+export const abbrAddress = (address: string) => {
+  const m =
+    N + (~address.search(/^vite_/) ? 5 : ~address.search(/^0x/) ? 2 : 0);
+  const n = N;
   return `${address.slice(0, m)}....${address.slice(-n)}`;
 };

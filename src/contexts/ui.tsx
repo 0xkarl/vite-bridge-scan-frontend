@@ -8,7 +8,7 @@ import React, {
   useCallback,
 } from 'react';
 
-import { Network, Token } from '@types/';
+import { Network, Token } from '@types';
 import { VITE_BLOCK_EXPLORERS, BSC_BLOCK_EXPLORERS } from '@config';
 
 const UIContext = createContext<{
@@ -29,6 +29,8 @@ type SearchParams = {
   to?: string;
   token?: Token;
   address?: string;
+  fromHash?: string;
+  toHash?: string;
 };
 
 export const UIProvider: FC<{ children: ReactNode }> = ({ children }) => {

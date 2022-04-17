@@ -5,8 +5,7 @@ import Box from '@material-ui/core/Box';
 
 import { Chain } from '@types';
 import { useUI } from '@contexts/ui';
-
-const N = 5;
+import CopyToClipboard from '@components/shared/CopyToClipboard';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,15 +25,19 @@ const Hash: FC<{ hash: string; chain: Chain }> = ({ hash, chain }) => {
     [hash, chain, viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl]
   );
 
-  return (
-    <a
-      href={blockExplorerLink}
-      className={clsx('flex items-center', classes.container)}
-      target='_blank'
-      rel='noreferrer'
-    >
-      <Box mr={2}>{hash}</Box>
-    </a>
+  return !hash ? (
+    <>-</>
+  ) : (
+    <CopyToClipboard text={hash}>
+      <a
+        href={blockExplorerLink}
+        className={clsx('flex items-center', classes.container)}
+        target='_blank'
+        rel='noreferrer'
+      >
+        <Box mr={2}>{hash}</Box>
+      </a>
+    </CopyToClipboard>
   );
 };
 

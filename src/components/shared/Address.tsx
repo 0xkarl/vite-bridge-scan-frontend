@@ -23,8 +23,8 @@ const Address: FC<{
   const classes = useStyles();
 
   const formatedAddress = useMemo(() => {
-    return !address ? null : abbrAddress(address, chain);
-  }, [chain, address]);
+    return !address ? null : abbrAddress(address);
+  }, [address]);
 
   const blockExplorerLink = useMemo(
     () =>

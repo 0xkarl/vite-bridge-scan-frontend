@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { Txn } from '@types/';
+import { Txn } from '@types';
 import * as request from '@utils/request';
 import { useUI } from '@contexts/ui';
 import { poll } from '@utils/hooks';

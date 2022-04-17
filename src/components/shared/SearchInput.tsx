@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 
-import { Token } from '@types/';
+import { Token } from '@types';
 import { abbrAddress } from '@utils/string';
 import { useUI } from '@contexts/ui';
 
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   formRow: {
     margin: '0.5rem 0',
   },
+  dialogContainer: { width: 650 },
 }));
 
 const TOKENS: Token[] = ['vite', 'usdv'];
@@ -61,15 +62,19 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [localToken, setLocalToken] = useState<Token>('');
 
-  const { from, to, token, address } = searchParams;
+  const { from, to, token, address, fromHash, toHash } = searchParams;
 
+  const isSearching = useMemo(
+    () => !!(address || from || to || token || fromHash || toHash),
+    [address, from, to, token, fromHash, toHash]
+  );
   return (
     <>
       <div className='flex flex-col'>
         <Paper
           component='form'
           className={clsx(classes.root, {
-            [classes.disabled]: !!(address || from || to || token),
+            [classes.disabled]: isSearching,
             [classes.largeRoot]: large,
           })}
           onSubmit={(e) => {
@@ -87,30 +92,37 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
             }
           }}
         >
-          {address || from || to || token ? (
+          {isSearching ? (
             <>
               <Box className='flex flex-grow' pl={2}>
                 {!address ? null : (
-                  <span className='mx-1'>
-                    {abbrAddress(
-                      address,
-                      ~address.search('vite_') ? 'vite' : 'bsc'
-                    )}
-                  </span>
+                  <span className='mx-1'>{abbrAddress(address)}</span>
                 )}
                 {!from ? null : (
                   <span className='mx-1'>
                     from:
-                    {abbrAddress(from, ~from.search('vite_') ? 'vite' : 'bsc')}
+                    {abbrAddress(from)}
                   </span>
                 )}
                 {!to ? null : (
                   <span className='mx-1'>
                     to:
-                    {abbrAddress(to, ~to.search('vite_') ? 'vite' : 'bsc')}
+                    {abbrAddress(to)}
                   </span>
                 )}
                 {!token ? null : <span className='mx-1'>token:{token} </span>}
+                {!fromHash ? null : (
+                  <span className='mx-1'>
+                    from hash:
+                    {abbrAddress(fromHash)}
+                  </span>
+                )}
+                {!toHash ? null : (
+                  <span className='mx-1'>
+                    to hash:
+                    {abbrAddress(toHash)}
+                  </span>
+                )}
               </Box>
 
               <IconButton
@@ -158,7 +170,7 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
         }}
       >
         <form
-          className={'w-96 p-4'}
+          className={clsx(classes.dialogContainer, 'p-4')}
           onSubmit={(e) => {
             e.preventDefault();
             const form = e.target as any;
@@ -166,8 +178,10 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
             const from = form.from.value as string;
             const to = form.to.value as string;
             const token = form.token.value;
+            const fromHash = form.fromHash.value as string;
+            const toHash = form.toHash.value as string;
 
-            search({ from, to, token });
+            search({ from, to, token, fromHash, toHash });
             history.push('/txs');
             setShowAdvancedSearch(false);
           }}
@@ -227,6 +241,30 @@ const SearchInput: FC<{ large?: boolean }> = ({ large }) => {
                   ))}
                 </Select>
               </FormControl>
+            </div>
+
+            <div className={classes.formRow}>
+              <TextField
+                name='fromHash'
+                fullWidth
+                label={'From hash'}
+                placeholder={'Enter hashs...'}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+
+            <div className={classes.formRow}>
+              <TextField
+                name='toHash'
+                fullWidth
+                label={'To hash'}
+                placeholder={'Enter hash...'}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             </div>
 
             <div className={classes.formRow}>
