@@ -4,7 +4,7 @@ import { useViteProvider } from '@react-vite';
 import { useBSCProvider } from '@contexts/bsc-provider';
 import { Chain } from '@types';
 import { poll } from '@utils/hooks';
-import { MAX_VITE_CONFIRMATIONS, MAX_BSC_CONFIRMATIONS } from '@config/';
+import { MAX_VITE_CONFIRMATIONS, MAX_BSC_CONFIRMATIONS } from '@config';
 
 type Args = {
   chain: Chain;
