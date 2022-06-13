@@ -7,6 +7,7 @@ import Layout from '@components/global/Layout';
 import { ViteProvider } from '@react-vite';
 import { UIProvider, useUI } from '@contexts/ui';
 import { BSCProviderProvider } from '@contexts/bsc-provider';
+import { ETHProviderProvider } from '@contexts/eth-provider';
 
 const App: FC = () => {
   return (
@@ -24,7 +25,9 @@ const Shell: FC = () => {
   return (
     <ViteProvider {...{ network }}>
       <BSCProviderProvider>
-        <Layout />
+        <ETHProviderProvider>
+          <Layout />
+        </ETHProviderProvider>
       </BSCProviderProvider>
     </ViteProvider>
   );

@@ -141,6 +141,16 @@ const Stats: FC = () => {
               />
               BSC
             </div>
+            <div className='flex items-center'>
+              <img
+                src={'/eth.png'}
+                alt={'eth'}
+                width={14}
+                height={14}
+                className='mr-2'
+              />
+              ETH
+            </div>
           </div>
         </div>
       </div>

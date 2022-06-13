@@ -2,7 +2,7 @@ export type Network = 'mainnet' | 'testnet';
 
 export type Token = 'vite' | 'usdv';
 
-export type Chain = 'bsc' | 'vite';
+export type Chain = 'bsc' | 'vite' | 'eth';
 
 export type Txn = {
   id: string;

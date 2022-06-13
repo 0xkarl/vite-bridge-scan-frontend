@@ -21,5 +21,17 @@ export const BSC_WEB3_PROVIDER = {
   testnet: 'https://data-seed-prebsc-1-s1.binance.org:8545',
 };
 
+export const ETH_BLOCK_EXPLORERS = {
+  mainnet: 'https://etherscan.io',
+  testnet: 'https://rinkeby.etherscan.io',
+};
+
+export const ETH_WEB3_PROVIDER = {
+  mainnet:
+    'https://eth-mainnet.alchemyapi.io/v2/mURJxPisxCxcQoewUfw7oIQPAwKrx8zB',
+  testnet:
+    'https://eth-rinkeby.alchemyapi.io/v2/89CBi23LihhBHHA25O4kgog3UzQmbhrg',
+};
+
 export const MAX_VITE_CONFIRMATIONS = 100;
 export const MAX_BSC_CONFIRMATIONS = 10;

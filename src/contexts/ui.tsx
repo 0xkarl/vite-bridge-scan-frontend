@@ -9,7 +9,11 @@ import React, {
 } from 'react';
 
 import { Network, Token } from '@types';
-import { VITE_BLOCK_EXPLORERS, BSC_BLOCK_EXPLORERS } from '@config';
+import {
+  VITE_BLOCK_EXPLORERS,
+  BSC_BLOCK_EXPLORERS,
+  ETH_BLOCK_EXPLORERS,
+} from '@config';
 
 const UIContext = createContext<{
   searchParams: SearchParams;
@@ -22,6 +26,7 @@ const UIContext = createContext<{
 
   bscBaseBlockexplorerUrl: string;
   viteBaseBlockexplorerUrl: string;
+  ethBaseBlockexplorerUrl: string;
 } | null>(null);
 
 type SearchParams = {
@@ -44,6 +49,9 @@ export const UIProvider: FC<{ children: ReactNode }> = ({ children }) => {
     () => VITE_BLOCK_EXPLORERS[network],
     [network]
   );
+  const ethBaseBlockexplorerUrl = useMemo(() => ETH_BLOCK_EXPLORERS[network], [
+    network,
+  ]);
 
   const clearSearch = useCallback(() => {
     search({});
@@ -62,6 +70,7 @@ export const UIProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         bscBaseBlockexplorerUrl,
         viteBaseBlockexplorerUrl,
+        ethBaseBlockexplorerUrl,
       }}
     >
       {children}

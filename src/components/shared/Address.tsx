@@ -19,7 +19,11 @@ const Address: FC<{
   chain: Chain;
   reversed?: boolean;
 }> = ({ address, chain, reversed }) => {
-  const { viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl } = useUI();
+  const {
+    viteBaseBlockexplorerUrl,
+    bscBaseBlockexplorerUrl,
+    ethBaseBlockexplorerUrl,
+  } = useUI();
   const classes = useStyles();
 
   const formatedAddress = useMemo(() => {
@@ -30,8 +34,16 @@ const Address: FC<{
     () =>
       (chain === 'vite'
         ? `${viteBaseBlockexplorerUrl}/account/`
-        : `${bscBaseBlockexplorerUrl}/address/`) + address,
-    [address, chain, viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl]
+        : chain === 'bsc'
+        ? `${bscBaseBlockexplorerUrl}/address/`
+        : `${ethBaseBlockexplorerUrl}/address/`) + address,
+    [
+      address,
+      chain,
+      viteBaseBlockexplorerUrl,
+      bscBaseBlockexplorerUrl,
+      ethBaseBlockexplorerUrl,
+    ]
   );
 
   return !address ? (
@@ -49,7 +61,13 @@ const Address: FC<{
       >
         <Box {...(reversed ? { ml: 2 } : { mr: 2 })}>{formatedAddress}</Box>
         <img
-          src={chain === 'vite' ? '/vite.svg' : '/bsc.svg'}
+          src={
+            chain === 'vite'
+              ? '/vite.svg'
+              : chain === 'bsc'
+              ? '/bsc.svg'
+              : '/eth.png'
+          }
           alt={`${address} - ${chain}`}
           width={14}
           height={14}

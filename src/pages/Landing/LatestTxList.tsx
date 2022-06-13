@@ -19,7 +19,7 @@ import {
 
 import { BORDER_RADIUS } from '@config';
 import { Txn } from '@types';
-import { formatUnits, formatNumber } from '@utils/big-number';
+import { formatUnits } from '@utils/big-number';
 import useTxns from '@hooks/useTxns';
 import Address from '@components/shared/Address';
 import useTxStatus from '@hooks/useTxStatus';
@@ -121,7 +121,7 @@ const TxRow: FC<{ txn: Txn }> = ({ txn }) => {
         <Status input={inputTxCompleted} output={outputTxCompleted} />
       </TableCell>
       <TableCell>{moment.unix(txn.input.timestamp).fromNow()}</TableCell>
-      <TableCell>{formatNumber(txn.fee, 4)}</TableCell>
+      <TableCell>{formatUnits(txn.fee, 18, 2)}</TableCell>
       <TableCell align='right'>
         <Link to={`/tx/${txn.id}`}>
           <Button

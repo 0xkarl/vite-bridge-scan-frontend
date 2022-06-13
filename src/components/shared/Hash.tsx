@@ -14,15 +14,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Hash: FC<{ hash: string; chain: Chain }> = ({ hash, chain }) => {
-  const { viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl } = useUI();
+  const {
+    viteBaseBlockexplorerUrl,
+    bscBaseBlockexplorerUrl,
+    ethBaseBlockexplorerUrl,
+  } = useUI();
   const classes = useStyles();
 
   const blockExplorerLink = useMemo(
     () =>
       (chain === 'vite'
         ? `${viteBaseBlockexplorerUrl}/tx/`
-        : `${bscBaseBlockexplorerUrl}/tx/`) + hash,
-    [hash, chain, viteBaseBlockexplorerUrl, bscBaseBlockexplorerUrl]
+        : chain === 'bsc'
+        ? `${bscBaseBlockexplorerUrl}/tx/`
+        : `${ethBaseBlockexplorerUrl}/tx/`) + hash,
+    [
+      hash,
+      chain,
+      viteBaseBlockexplorerUrl,
+      bscBaseBlockexplorerUrl,
+      ethBaseBlockexplorerUrl,
+    ]
   );
 
   return !hash ? (
