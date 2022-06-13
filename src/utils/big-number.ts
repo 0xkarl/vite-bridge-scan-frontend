@@ -4,7 +4,7 @@ const PRECISION = 4;
 
 export function toFixed(a: any, b: any, precision?: number) {
   if (toBigNumber(a).isZero() || toBigNumber(b).isZero()) {
-    return '0';
+    return toBigNumber('0').toFormat(precision ?? PRECISION);
   }
   return toBigNumber(a)
     .div(toBigNumber(b))
