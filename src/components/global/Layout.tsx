@@ -49,19 +49,6 @@ const Layout: FC = () => {
         </Switch>
 
         <div className='mt-8 flex justify-center'>
-          <Link to='/txs'>
-            <Button
-              variant='contained'
-              disableElevation
-              color='primary'
-              size='small'
-            >
-              View all
-            </Button>
-          </Link>
-        </div>
-
-        <div className='mt-8 flex justify-center'>
           build by&nbsp;
           <a
             href='https://voltlabs.io'
