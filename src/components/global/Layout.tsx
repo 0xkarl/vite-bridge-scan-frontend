@@ -46,6 +46,18 @@ const Layout: FC = () => {
         <Switch>
           <Route path={'/test/:test'} component={TestModal} />
         </Switch>
+
+        <div className='mt-8 flex justify-center'>
+          build by&nbsp;
+          <a
+            href='https://voltlabs.io'
+            target='_blank'
+            rel='noreferrer noopener'
+            className='underline'
+          >
+            voltlabs
+          </a>
+        </div>
       </Box>
     </Router>
   );
