@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { Link, HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Landing from '@pages/Landing';
 import TxList from '@pages/TxList';
@@ -57,6 +58,19 @@ const Layout: FC = () => {
           >
             voltlabs
           </a>
+        </div>
+
+        <div className='mt-8 flex justify-center'>
+          <Link to='/txs'>
+            <Button
+              variant='contained'
+              disableElevation
+              color='primary'
+              size='small'
+            >
+              View all
+            </Button>
+          </Link>
         </div>
       </Box>
     </Router>
